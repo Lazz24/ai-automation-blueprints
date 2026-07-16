@@ -1,5 +1,5 @@
 # AI Automation Portfolio
-### Laszlo Sándor
+### László Sándor
 
 AI automation systems, GTM infrastructure, and operational tooling — built on Apollo, Zapier, OpenAI, Airtable, n8n, Make.com, Groq, Cloudflare Workers, Supabase, and more.
 
