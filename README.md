@@ -51,6 +51,7 @@ Blueprint level only. Actual prompts, schemas, and code live in a private reposi
 | [22](./22-etl-pipeline/) | ETL Data Pipeline | Python · FastAPI · PostgreSQL · pandas · Groq | 🟠 Built — deploying |
 | [23](./23-wayfinder/) | Wayfinder · Conversational RAG | Python · FastAPI · PostgreSQL · Groq · Serper · Airtable | 🟠 Built — deploying |
 | [24](./24-llm-eval-harness/) | LLM Eval Harness | Python 3.12 · Groq · PyYAML · Hand-built (no eval library) | ⚪ Built — local |
+| [25](./25-sitdown/) | Sitdown · Meeting Notes → Action Items | Python 3.12 · FastAPI · PostgreSQL 17 · Groq | 🟠 Built — deploying |
 
 ---
 
@@ -74,7 +75,10 @@ Blueprint level only. Actual prompts, schemas, and code live in a private reposi
 ## Design Principles
 
 **LLM narrates, code computes**
-No LLM performs arithmetic, threshold comparison, or eligibility judgement. The model extracts values and the verbatim span each came from; Python does the rest. Enforced in code, not in prompts — and verified by an eval harness ([24](./24-llm-eval-harness/)) that runs the same suite against an unguarded control to measure what the guardrails are actually worth.
+No LLM performs arithmetic, threshold comparison, or eligibility judgement. The model extracts values and the verbatim span each came from; Python does the rest. Enforced in code, not in prompts — and verified by an eval harness ([24](./24-llm-eval-harness/)) that runs the same suite against an unguarded control to measure what the guardrails are actually worth. Sitdown ([25](./25-sitdown/)) is the clearest case: the model reports a deadline as it was said — "next Friday", "before the board meeting" — and a tested resolver turns that into a date, or leaves the phrase alone when it can't.
+
+**Classify failures, don't lump them**
+A dashboard that reports "failed" for both a broken extraction and an exhausted API quota is reporting a healthy system as broken. Failure classes are distinguished at the storage layer, not just in logs.
 
 **One-button UX for client tools**
 Decision makers get a single action. The pipeline complexity is invisible. Demo interfaces are always built separately from production backends.
