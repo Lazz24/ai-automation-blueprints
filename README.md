@@ -50,6 +50,7 @@ Blueprint level only. Actual prompts, schemas, and code live in a private reposi
 | [21](./21-roi-calculator/) | Automation ROI Calculator | Vanilla JS · HTML/CSS · GitHub Pages | 🟢 Live |
 | [22](./22-etl-pipeline/) | ETL Data Pipeline | Python · FastAPI · PostgreSQL · pandas · Groq | 🟠 Built — deploying |
 | [23](./23-wayfinder/) | Wayfinder · Conversational RAG | Python · FastAPI · PostgreSQL · Groq · Serper · Airtable | 🟠 Built — deploying |
+| [24](./24-llm-eval-harness/) | LLM Eval Harness | Python 3.12 · Groq · PyYAML · Hand-built (no eval library) | ⚪ Built — local |
 
 ---
 
@@ -66,10 +67,14 @@ Blueprint level only. Actual prompts, schemas, and code live in a private reposi
 | Communication | Slack · Gmail · Resend |
 | Infrastructure | GitHub · JSON · Markdown |
 | Charts & Reporting | QuickChart · jsPDF |
+| Testing / Eval | Hand-built eval harness (PyYAML · Groq · assertion + regression diff) |
 
 ---
 
 ## Design Principles
+
+**LLM narrates, code computes**
+No LLM performs arithmetic, threshold comparison, or eligibility judgement. The model extracts values and the verbatim span each came from; Python does the rest. Enforced in code, not in prompts — and verified by an eval harness ([24](./24-llm-eval-harness/)) that runs the same suite against an unguarded control to measure what the guardrails are actually worth.
 
 **One-button UX for client tools**
 Decision makers get a single action. The pipeline complexity is invisible. Demo interfaces are always built separately from production backends.
@@ -95,6 +100,7 @@ Each product is built and proven on its own before being connected to others. Br
 | 🟢 Live / Production | Deployed and running |
 | 🔵 Active | Built and operational |
 | 🟠 Built — deploying | Built and proven locally; deployment pending |
+| ⚪ Built — local | Runs locally by design; no deployment path intended |
 | 🟡 Design / In Development | Architecture complete or build in progress |
 | 🟣 Demo / POC | Working demo or proof of concept, pre-production |
 
