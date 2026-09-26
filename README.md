@@ -52,9 +52,9 @@ Blueprint level only. Actual prompts, schemas, and code live in a private reposi
 | [23](./23-wayfinder/) | Wayfinder · Conversational RAG | Python · FastAPI · PostgreSQL · Groq · Serper · Airtable | 🟠 Built — deploying |
 | [24](./24-llm-eval-harness/) | LLM Eval Harness | Python 3.12 · Groq · PyYAML · Hand-built (no eval library) | ⚪ Built — local |
 | [25](./25-sitdown/) | Sitdown · Meeting Notes → Action Items | Python 3.12 · FastAPI · PostgreSQL 17 · Groq | 🟠 Built — deploying |
-| 26 |(./26-mini-nms/) Mini-NMS — Cisco IOS Config Auditor | Python · FastAPI · network tooling | 🟢 Live |
-| 27 |(./27-interactive-automation-designer/) Interactive Automation Designer | (existing stack) | (existing status) |
-| 28 |(.28-longgame-fpl/) LongGame — FPL Decision Engine | Python · FastAPI · SQLite · PuLP · HTMX · Render | 🟢 Live |
+| 26 | [Mini-NMS — Cisco IOS Config Auditor](./26-mini-nms/) | Python · FastAPI · network tooling | 🟢 Live |
+| 27 | [Interactive Automation Designer](./27-interactive-automation-designer/) | (existing stack) | (existing status) |
+| 28 | [LongGame — FPL Decision Engine](./28-longgame-fpl/) | Python · FastAPI · SQLite · PuLP · HTMX · Render | 🟢 Live |
 
 ---
 
