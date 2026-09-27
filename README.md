@@ -55,6 +55,8 @@ Blueprint level only. Actual prompts, schemas, and code live in a private reposi
 | [26](./26-mini-nms/) | Mini-NMS — Network Operations Center | Python (stdlib) · Cisco IOS parsing · Vanilla JS · Render | 🟢 Live |
 | [27](./27-interactive-automation-designer/) | Interactive Automation Designer | Vanilla JS · HTML/CSS · Groq · Cloudflare Workers | 🟢 Live |
 | [28](./28-longgame-fpl/) | LongGame — FPL Decision Engine | Python · FastAPI · SQLite · PuLP · HTMX · Render | 🟢 Live |
+| [29](./29-sell-the-couch/) | Sell the Couch — Multi-Agent Resale Workflow | Claude Code · Claude in Chrome · Gmail · JSON state | 🔵 Active |
+
 ---
 
 ## Stack
@@ -97,6 +99,9 @@ Client-facing interfaces are always built separately from production backends. T
 
 **Standalone-first, bridge later**
 Each product is built and proven on its own before being connected to others. Bridges add a compounding intelligence layer without turning any product into a monolith.
+
+**Human gate on every side-effect**
+In agent workflows that can post, send, or share on the user's behalf, the agents prepare and a person approves. Nothing irreversible fires without a human clicking the final button — the gate is enforced in the agent's design, not left to the model's judgement.
 
 ---
 
