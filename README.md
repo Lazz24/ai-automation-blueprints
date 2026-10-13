@@ -9,6 +9,21 @@ AI automation systems, GTM infrastructure, and operational tooling — built on 
 
 ---
 
+## ⭐ Featured Build — [Tender Agents](./30-tender-agents/)
+
+> **A fully agentic, multi-client pipeline that finds public-sector tenders, reads their documents, scores them against a client's real capabilities, and writes a grounded, compliance-checked bid — with a human only at the final sign-off.**
+
+The most substantial engineered build in this portfolio: a from-scratch, eleven-agent Python system — not a no-code wiring job — proven end-to-end on live Dutch government tenders (TenderNed) and packaged as a portable Docker image.
+
+- **Agent-to-agent (A2A):** governments publish tenders by machine; the pipeline consumes them by machine. Scout → Fetcher → Shredder → Qualifier → Librarian → Drafter → Compliance → Submitter, with Orchestrator, Pricer, and Onboarding alongside.
+- **Honesty enforced in code, not prompts:** the system can only claim what a client's own documents evidence, and flags gaps instead of hiding them — demonstrated by a real bid that correctly *failed* compliance because the client lacked a required document, rather than fabricating it.
+- **Multi-client-safe by construction:** per-client profiles and document stores, a conflict guard that refuses to work two sides of one tender, and retrieval that requires a client identity — one client's material cannot surface in another's bid. Proven under a real second client.
+- **Portable:** containerized with offline-baked models, data on mounted volumes, verified running fully air-gapped. 410 automated tests passing.
+
+**Stack:** Python · SQLite · sentence-transformers · tiktoken · Groq · Docker  →  **[Full write-up →](./30-tender-agents/)**
+
+---
+
 ## How This Repo Is Structured
 
 Each project folder contains a README documenting:
@@ -56,6 +71,7 @@ Blueprint level only. Actual prompts, schemas, and code live in a private reposi
 | [27](./27-interactive-automation-designer/) | Interactive Automation Designer | Vanilla JS · HTML/CSS · Groq · Cloudflare Workers | 🟢 Live |
 | [28](./28-longgame-fpl/) | LongGame — FPL Decision Engine | Python · FastAPI · SQLite · PuLP · HTMX · Render | 🟢 Live |
 | [29](./29-sell-the-couch/) | Sell the Couch — Multi-Agent Resale Workflow | Claude Code · Claude in Chrome · Gmail · JSON state | 🔵 Active |
+| [30](./30-tender-agents/) | **Tender Agents — Agentic Tender-Bid Pipeline** ⭐ | Python · SQLite · sentence-transformers · Groq · Docker | ⚫ Built — pre-launch |
 
 ---
 
@@ -67,10 +83,11 @@ Blueprint level only. Actual prompts, schemas, and code live in a private reposi
 | Automation | Zapier · Make.com · n8n · ActivePieces |
 | Data / CRM | Airtable · Notion · ClickUp · Google Sheets · Supabase |
 | Lead sourcing | Apollo.io · LinkedIn |
-| Backend / Data | Python · FastAPI · PostgreSQL · pgvector · pandas |
+| Backend / Data | Python · FastAPI · PostgreSQL · pgvector · pandas · SQLite |
+| Agentic / ML | Multi-agent pipelines · sentence-transformers · tiktoken · local RAG |
 | Interfaces | GitHub Pages · Cloudflare Workers · Streamlit · Vanilla JS · HTMX · SQLite |
 | Communication | Slack · Gmail · Resend |
-| Infrastructure | GitHub · JSON · Markdown |
+| Infrastructure | GitHub · Docker · JSON · Markdown |
 | Charts & Reporting | QuickChart · jsPDF |
 | Testing / Eval | Hand-built eval harness (PyYAML · Groq · assertion + regression diff) |
 | Optimization | PuLP (CBC linear programming) |
@@ -80,7 +97,7 @@ Blueprint level only. Actual prompts, schemas, and code live in a private reposi
 ## Design Principles
 
 **LLM narrates, code computes**
-No LLM performs arithmetic, threshold comparison, or eligibility judgement. The model extracts values and the verbatim span each came from; Python does the rest. Enforced in code, not in prompts — and verified by an eval harness ([24](./24-llm-eval-harness/)) that runs the same suite against an unguarded control to measure what the guardrails are actually worth. Sitdown ([25](./25-sitdown/)) is the clearest case: the model reports a deadline as it was said — "next Friday", "before the board meeting" — and a tested resolver turns that into a date, or leaves the phrase alone when it can't.
+No LLM performs arithmetic, threshold comparison, or eligibility judgement. The model extracts values and the verbatim span each came from; Python does the rest. Enforced in code, not in prompts — and verified by an eval harness ([24](./24-llm-eval-harness/)) that runs the same suite against an unguarded control to measure what the guardrails are actually worth. Sitdown ([25](./25-sitdown/)) is the clearest case: the model reports a deadline as it was said — "next Friday", "before the board meeting" — and a tested resolver turns that into a date, or leaves the phrase alone when it can't. Tender Agents ([30](./30-tender-agents/)) takes it furthest: the bid drafter can only claim what a client's documents actually support, and a model that claims coverage without a real citation is code-overridden to a flagged gap.
 
 **Classify failures, don't lump them**
 A dashboard that reports "failed" for both a broken extraction and an exhausted API quota is reporting a healthy system as broken. Failure classes are distinguished at the storage layer, not just in logs.
@@ -98,7 +115,10 @@ Systems are built around real limitations: free-tier APIs, no-code platform rest
 Client-facing interfaces are always built separately from production backends. The operational system handles real data; the demo handles presentations.
 
 **Standalone-first, bridge later**
-Each product is built and proven on its own before being connected to others. Bridges add a compounding intelligence layer without turning any product into a monolith.
+Each product is built and proven on its own before being connected to others. Bridges add a compounding intelligence layer without turning any product into a monolith. Tender Agents reuses the RAG Engine's ([20](./20-rag-engine/)) embedding-and-chunking approach for its per-client document retrieval — a bridge that adds capability without coupling the two.
+
+**Multi-tenant isolation as a hard constraint**
+Where a system serves more than one client, separation is enforced in code, not convention: per-client data stores, identity-scoped retrieval, and conflict guards that make cross-client leakage impossible by construction rather than by policy.
 
 **Human gate on every side-effect**
 In agent workflows that can post, send, or share on the user's behalf, the agents prepare and a person approves. Nothing irreversible fires without a human clicking the final button — the gate is enforced in the agent's design, not left to the model's judgement.
@@ -112,6 +132,7 @@ In agent workflows that can post, send, or share on the user's behalf, the agent
 | 🟢 Live / Production | Deployed and running |
 | 🔵 Active | Built and operational |
 | 🟠 Built — deploying | Built and proven locally; deployment pending |
+| ⚫ Built — pre-launch | Built, verified, and packaged; launch pending commercial setup |
 | ⚪ Built — local | Runs locally by design; no deployment path intended |
 | 🟡 Design / In Development | Architecture complete or build in progress |
 | 🟣 Demo / POC | Working demo or proof of concept, pre-production |
